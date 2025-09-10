@@ -1,4 +1,4 @@
-# Scrapy settings for real_state project
+# Scrapy settings for gateaway project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,14 +7,15 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "real_state"
+BOT_NAME = "gateaway"
 
-SPIDER_MODULES = ["real_state.spiders"]
-NEWSPIDER_MODULE = "real_state.spiders"
+SPIDER_MODULES = ["gateaway.spiders"]
+NEWSPIDER_MODULE = "gateaway.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0'
+#USER_AGENT = "gateaway (+http://www.yourdomain.com)"
+
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
@@ -24,7 +25,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 3
+#DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -36,23 +37,21 @@ DOWNLOAD_DELAY = 3
 #TELNETCONSOLE_ENABLED = False
 
 # Override the default request headers:
-DEFAULT_REQUEST_HEADERS = {
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'Accept-Language': 'en-US,en;q=0.5',
-    'Connection': 'keep-alive',
-    'Upgrade-Insecure-Requests': '1',
-}
+#DEFAULT_REQUEST_HEADERS = {
+#    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+#    "Accept-Language": "en",
+#}
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    "real_state.middlewares.RealStateSpiderMiddleware": 543,
+#    "gateaway.middlewares.GateawaySpiderMiddleware": 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    "real_state.middlewares.RealStateDownloaderMiddleware": 543,
+#    "gateaway.middlewares.GateawayDownloaderMiddleware": 543,
 #}
 
 # Enable or disable extensions
@@ -63,9 +62,9 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "real_state.pipelines.RealStatePipeline": 300,
-#}
+ITEM_PIPELINES = {
+   "gateaway.pipelines.GateawayPipeline": 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
