@@ -1,4 +1,3 @@
-from urllib import response
 import scrapy
 from urllib.parse import urljoin
 import logging
