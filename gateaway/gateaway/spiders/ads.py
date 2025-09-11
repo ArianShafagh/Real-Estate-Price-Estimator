@@ -5,18 +5,18 @@ from gateaway.items import GateawayItem
 
 class AdsSpider(scrapy.Spider):
     name = "ads"
-    start_urls = [
-        f"https://www.gate-away.com/properties/sicily?currency=EUR&pag={i}"
-        for i in range(1, 618)   # 1 → 617
-    ]    
+    allowed_domains = ["gate-away.com"]
+
+    start_urls = ["https://www.gate-away.com/properties?currency=EUR&pag=1"]
+    
     api_url = "https://www.gate-away.com/api/properties/{}"
 
     def parse(self, response):
         """
         Parses the search results page and initiates requests for each property.
         """
-        current_page = int(response.url.split("pag=")[-1])
-        self.logger.info(f"Parsing page {current_page}")        
+        current_page = int(response.url.split("pag=")[-1]) if "pag=" in response.url else 1
+        # self.logger.info(f"Parsing page {current_page}")        
     
         # Get all property card list items
         cards = response.xpath("//section[@class='property-list-ver']//ul[@class='property-list-ver__wrapper']/li")
@@ -33,6 +33,8 @@ class AdsSpider(scrapy.Spider):
                     callback=self.parse_html,
                     meta={'prop_id': prop_id}
                 )
+        next_page_url = re.sub(r"pag=\d+", f"pag={current_page+1}", response.url)
+        yield scrapy.Request(url=next_page_url, callback=self.parse)
 
     def parse_html(self, response):
         def extract_first_number(value):

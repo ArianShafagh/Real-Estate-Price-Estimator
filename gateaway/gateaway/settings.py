@@ -13,6 +13,7 @@ BOT_NAME = "gateaway"
 
 SPIDER_MODULES = ["gateaway.spiders"]
 NEWSPIDER_MODULE = "gateaway.spiders"
+# JOBDIR = 'crawls/myspider-1'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
