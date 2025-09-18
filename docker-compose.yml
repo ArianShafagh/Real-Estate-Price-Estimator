@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: ./interface
+      dockerfile: Dockerfile
+    container_name: real_estate_web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./interface/src:/var/www/html
+  api:
+    build: ./api
+    container_name: fastapi_model
+    ports:
+      - "8000:8000"    
+
+

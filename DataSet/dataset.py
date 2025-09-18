@@ -41,9 +41,9 @@ db['terrace'] = np.where(db['terrace_sqm'] > 0, 1, 0)
 db['land'] = np.where(db['land_area'] > 0, 1, 0)
 
 # 5. Filter the data based on specified ranges
-db = db[db['price'].between(30000, 20000000)]
+db = db[db['price'].between(30000, 1000000)]
 db = db[db['rooms'].between(0, 15)]
-db = db[db['bathrooms'].between(0, 10)]
+db = db[db['bathrooms'].between(1, 10)]
 db = db[db['living_area'].between(50, 1000)]
 db = db[db['garden_sqm'].between(0, 5000)]
 db = db[db['terrace_sqm'].between(0, 500)]
@@ -54,7 +54,16 @@ db['province_median'] = db['province_median'].round().astype('Int64')
 db['city_median'] = db.groupby('City')['price'].transform('median')
 db['city_median'] = db['city_median'].round().astype('Int64')
 
-
+city_medians = (
+    db.groupby(['City', 'Province'])['price']
+    .median()
+    .reset_index()
+    .rename(columns={'price': 'city_median_price'})
+)
+city_medians.to_csv(
+    'C:\\Users\\DOR CO\\Desktop\\Real state ML\\Real-Estate-Price-Estimator\\Dataset\\CityProvinceMedians.csv',
+    index=False
+)
 province_unique = db['Province'].unique()
 province_mapping = {prov: idx for idx, prov in enumerate(province_unique)}
 db['Province'] = db['Province'].map(province_mapping)
@@ -64,5 +73,6 @@ city_unique = db['City'].unique()
 city_mapping = {city: idx for idx, city in enumerate(city_unique)}
 db['City'] = db['City'].map(city_mapping)
 
+db["price_log"] = np.log1p(db["price"])
 
 db.to_csv('C:\\Users\\DOR CO\\Desktop\\Real state ML\\Real-Estate-Price-Estimator\\Dataset\\DataCleaned.csv', index=False)
