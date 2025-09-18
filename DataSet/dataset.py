@@ -48,4 +48,21 @@ db = db[db['living_area'].between(50, 1000)]
 db = db[db['garden_sqm'].between(0, 5000)]
 db = db[db['terrace_sqm'].between(0, 500)]
 db = db[db['land_area'].between(0, 500000)]
+
+db['province_median'] = db.groupby('Province')['price'].transform('median')
+db['province_median'] = db['province_median'].round().astype('Int64')
+db['city_median'] = db.groupby('City')['price'].transform('median')
+db['city_median'] = db['city_median'].round().astype('Int64')
+
+
+province_unique = db['Province'].unique()
+province_mapping = {prov: idx for idx, prov in enumerate(province_unique)}
+db['Province'] = db['Province'].map(province_mapping)
+
+# Automatically generate City IDs
+city_unique = db['City'].unique()
+city_mapping = {city: idx for idx, city in enumerate(city_unique)}
+db['City'] = db['City'].map(city_mapping)
+
+
 db.to_csv('C:\\Users\\DOR CO\\Desktop\\Real state ML\\Real-Estate-Price-Estimator\\Dataset\\DataCleaned.csv', index=False)
